@@ -24,10 +24,5 @@
   ],
   "scripts": {
     "start": "python app.py"
-  },
-  "formation": {
-    "web": {
-      "quantity": 1
-    }
   }
 }
