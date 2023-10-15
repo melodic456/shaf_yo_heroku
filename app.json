@@ -17,9 +17,6 @@
       "description": "Your URL"
     }
   },
-  "addons": [
-    // Add any required Heroku addons here
-  ],
   "buildpacks": [
     {
       "url": "heroku/python"
