@@ -1,7 +1,7 @@
 {
-  "name": "Shaf yo",
+  "name": "Your App Name",
   "description": "Your app description",
-  "repository": "https://github.com/melodic456/shaf_yo_heroku",
+  "repository": "https://github.com/your-repo",
   "keywords": ["python", "heroku"],
   "env": {
     "TOKEN": {
@@ -16,13 +16,18 @@
     "URL": {
       "description": "Your URL"
     }
-  },
+  }
   "buildpacks": [
     {
       "url": "heroku/python"
     }
   ],
   "scripts": {
-    "start": "python app.py"
+    "worker": "python app.py"
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1
+    }
   }
 }
