@@ -1,0 +1,28 @@
+{
+  "env": {
+    "TOKEN": {
+      "description": "Your Telegram Bot API token"
+    },
+    "CHAT_ID_1": {
+      "description": "Chat ID 1"
+    },
+    "CHAT_ID_2": {
+      "description": "Chat ID 2"
+    },
+    "URL": {
+      "description": "Your URL"
+    }
+  },
+  "addons": [
+    // Add any required Heroku addons here
+  ],
+  "buildpacks": [
+    // Add any required buildpacks here
+  ],
+  "scripts": {
+    // Add any required scripts here
+  },
+  "formation": {
+    // Specify your application process type and quantity here
+  }
+}
