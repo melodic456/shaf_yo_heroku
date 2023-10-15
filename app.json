@@ -16,14 +16,14 @@
     "URL": {
       "description": "Your URL"
     }
-  }
+  },
   "buildpacks": [
     {
       "url": "heroku/python"
     }
   ],
   "scripts": {
-    "worker": "python app.py"
+    "worker": "python3 app.py"
   },
   "formation": {
     "worker": {
