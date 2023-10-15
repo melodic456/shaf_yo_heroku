@@ -136,10 +136,6 @@ def get_binance_price_ticker2():
                         send_msg(percent_str)
 
 
-while True:
-    get_binance_price_ticker2()
-    time.sleep(30)
-
 def all_time_running():
     while True:
         get_binance_price_ticker2()
