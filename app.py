@@ -138,7 +138,10 @@ def get_binance_price_ticker2():
 
 def all_time_running():
     while True:
-        get_binance_price_ticker2()
+        try:
+            get_binance_price_ticker2()
+        except Exception as e:
+            print("maybe webserver is down")
         time.sleep(30)
 
 threading.Thread(target=all_time_running).start()
