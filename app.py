@@ -48,7 +48,7 @@ def get_binance_price_ticker2():
     #print(data)
     pair_id = 7223
     pair = 'USDT'
-    last_trade_binance = 0
+    last_trade_binance = 1
     if pair == "USDT":
         pair_id = 7223
         cookies = {
@@ -290,6 +290,7 @@ def get_specific_crypto_price_ticker(crypto_name):
             # send the message to telegram
 
             # считаем разницу
+            last_trade_binance = 1
 
             percent = ((last_trade - last_trade_binance) / last_trade_binance) * int(100)
             print(percent)
