@@ -11,11 +11,7 @@ from telebot import types
 
 # BUSD BNB ISSUES
 
-# Set environment variable
-os.environ['TOKEN'] = '6517055263:AAHojUJLP5O6oQ2lyz_IL9Vk1vKiR_rzcTc'
-os.environ['CHAT_ID_1'] = '5631242663'
-os.environ['CHAT_ID_2'] = '715039642'
-os.environ['URL'] = 'http://20.83.146.14/api/data'
+
 
 crypto_values = {
         'LTC': 50004,
