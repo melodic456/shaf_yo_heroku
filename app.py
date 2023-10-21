@@ -9,6 +9,14 @@ import threading
 import telebot
 from telebot import types
 
+# BUSD BNB ISSUES
+
+# Set environment variable
+os.environ['TOKEN'] = '6517055263:AAHojUJLP5O6oQ2lyz_IL9Vk1vKiR_rzcTc'
+os.environ['CHAT_ID_1'] = '5631242663'
+os.environ['CHAT_ID_2'] = '715039642'
+os.environ['URL'] = 'http://20.83.146.14/api/data'
+
 crypto_values = {
         'LTC': 50004,
         'DOGE': 50007,
@@ -136,6 +144,113 @@ def get_binance_price_ticker2():
                         send_msg(percent_str)
 
 
+def get_specific_crypto_price_ticker(crypto_name):
+    url = os.environ.get("URL")
+
+    response = requests.get(url)
+    data = response.json()
+    # print(data)
+    pair_id = 0
+    pair = ''
+    last_trade_binance = 0
+    pair = crypto_name.upper()
+    print(pair)
+    for sp_data in data:
+        # pair = sp_data['name'].replace("USDT", "")
+
+
+        for symbol, value in crypto_values.items():
+            if symbol == pair.upper() and pair.upper() in sp_data['name']:
+                print(sp_data['name'], sp_data['value'])
+                print(f"{symbol}: {value}")
+                # pair = symbol.replace("USDT", "")
+                pair_id = value
+                last_trade_binance = float(sp_data['value'])
+                print(pair_id, last_trade_binance, pair)
+                # #print(pair_id)
+                # if pair.upper() in sp_data['name']:
+                cookies = {
+                    '__ddg1_': 'p4pod51GNc8M8FBo8wiH',
+                    'locale': 'en',
+                    'c9839b948ceea6f557b8912b7229bec8': '1',
+                    'registertimer': '1',
+                    'LLXR': '1695900086',
+                    'LLXUR': 'ec99ee9e6bfb',
+                    '_ym_uid': '1695900088911625923',
+                    '_ym_d': '1695900088',
+                    '_ym_isad': '1',
+                    'marketbase': 'usd',
+                    'Rfr': 'https%3A%2F%2Fyobit.net%2Fen%2F',
+                    '__ddgid_': 'ae9EHVtYzWt9vWvD',
+                    '__ddgmark_': 'WCNb3BI9y8qb6YtV',
+                    '__ddg5_': 'a1KHVYth3P0yA19g',
+                    'PHPSESSID': 'bipggtgo5t7cqvnk89f3hgh0vc',
+                }
+
+                headers = {
+                    'authority': 'yobit.net',
+                    'accept': 'application/json, text/javascript, */*; q=0.01',
+                    'accept-language': 'en-US,en;q=0.9,bn;q=0.8',
+                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    # 'cookie': '__ddg1_=p4pod51GNc8M8FBo8wiH; locale=en; c9839b948ceea6f557b8912b7229bec8=1; registertimer=1; LLXR=1695900086; LLXUR=ec99ee9e6bfb; _ym_uid=1695900088911625923; _ym_d=1695900088; _ym_isad=1; marketbase=usd; Rfr=https%3A%2F%2Fyobit.net%2Fen%2F; __ddgid_=ae9EHVtYzWt9vWvD; __ddgmark_=WCNb3BI9y8qb6YtV; __ddg5_=a1KHVYth3P0yA19g; PHPSESSID=bipggtgo5t7cqvnk89f3hgh0vc',
+                    'origin': 'https://yobit.net',
+                    'referer': 'https://yobit.net/en/trade/' + str(pair).upper() + '/USD',
+                    'sec-ch-ua': '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
+                    'sec-ch-ua-mobile': '?0',
+                    'sec-ch-ua-platform': '"Windows"',
+                    'sec-fetch-dest': 'empty',
+                    'sec-fetch-mode': 'cors',
+                    'sec-fetch-site': 'same-origin',
+                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+                    'x-requested-with': 'XMLHttpRequest',
+                }
+
+                datas = {
+                    'pair_id': str(pair_id),
+                    'tz': 'Asia/Dhaka',
+                }
+
+                response = requests.post('https://yobit.net/ajax/system_status_data.php', cookies=cookies,
+                                         headers=headers,
+                                         data=datas)
+                # print(response.json())
+                for i in range(len(response.json()['buyord'])):
+                    # #print(response.json()['buyord'][i]['p'], response.json()['buyord'][i]['a'])
+                    # #print(response.json()['buyord'][i]['p'], response.json()['buyord'][i]['a'])
+                    last_trade = float(response.json()['buyord'][i]['p'])
+                    print(last_trade)
+                    ltc_amount = float(response.json()['buyord'][i]['a'])
+                    # calculate the difference
+                    # send the message to telegram
+
+                    # считаем разницу
+
+                    percent = ((last_trade - last_trade_binance) / last_trade_binance) * int(100)
+                    print(percent)
+                    # percent = int(100) / (last_trade - last_trade_binance) / last_trade_binance * int(100000)
+                    percent2 = round(percent, 4)
+                    # #print('Difference between exchange rates in %', percent2)
+                    # time.sleep(1)
+                    binance_1000 = 1000 / last_trade_binance
+                    yobit_1000 = binance_1000 * last_trade
+                    # #print(yobit_1000)
+                    # config = configparser.ConfigParser()
+                    # config.read('config.ini')
+                    # crypto_value = config.get('Section 1', str(pair))
+                    # crypto_amount = config.get('Section 3', str(pair) + "_a")
+
+                    # if yobit_1000 > int(crypto_value) and float(ltc_amount) > float(crypto_amount):
+                        # percent_str = str(percent2) + ' The difference has reached the purchase level!!!! > 7%' + str()
+                    percent_str = str(pair).upper() + ' : The difference is now ' + str(
+                        percent2) + '%' + '\nBinance rate: ' + str(last_trade_binance) + \
+                                  "\nYobit rate: " + str(last_trade) + "\n" + str(pair).upper() + " amount: " + str(
+                        ltc_amount) + "\nYobit for 1000 , rate is " + str(yobit_1000)
+                    # print(percent_str)
+                    # if percent2 < 7 or percent2 > 10:
+                    # send_msg(percent_str)
+                    return percent_str
+
+
 def all_time_running():
     while True:
         try:
@@ -254,8 +369,10 @@ def get_text_messages(message):
         markup = types.InlineKeyboardMarkup()
         calc = types.InlineKeyboardButton(text='Change calculation(1000)?', callback_data="calc")
         amount = types.InlineKeyboardButton(text='Change amount for crypto?', callback_data="amount")
+        pair_price = types.InlineKeyboardButton(text='Check pair price', callback_data="pair_price")
         markup.add(calc)
         markup.add(amount)
+        markup.add(pair_price)
         bot.send_message(message.chat.id, "Choose Options:", reply_markup=markup)
     if "/a" in message.text:
         amount_to_change = config.get('Section 2', 'amount_to_change')
@@ -383,6 +500,45 @@ def beginning(call):
         # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb, all)
         bot.send_message(call.from_user.id, "Choose Crypto:", reply_markup=markup)
 
+    if call.data == "pair_price":
+        markup = types.InlineKeyboardMarkup()
+        ltc = types.InlineKeyboardButton(text='LTC', callback_data="ltc_price")
+        doge = types.InlineKeyboardButton(text='DOGE', callback_data="doge_price")
+        trx = types.InlineKeyboardButton(text='TRX', callback_data="trx_price")
+        usdt = types.InlineKeyboardButton(text='USDT', callback_data="usdt_price")
+        eth = types.InlineKeyboardButton(text='ETH', callback_data="eth_price")
+        btc = types.InlineKeyboardButton(text='BTC', callback_data="btc_price")
+        xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp_price")
+        matic = types.InlineKeyboardButton(text='MATIC', callback_data="matic_price")
+        link = types.InlineKeyboardButton(text='LINK', callback_data="link_price")
+        busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd_price")
+        bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb_price")
+        # all = types.InlineKeyboardButton(text='ALL', callback_data="all")
+        # check_all_values = types.InlineKeyboardButton(text='Check all values', callback_data="check_all_values")
+        # markup.add(check_all_values)
+        markup.add(ltc)
+        markup.add(doge)
+        markup.add(trx)
+        markup.add(usdt)
+        markup.add(eth)
+        markup.add(btc)
+        markup.add(xrp)
+        markup.add(matic)
+        markup.add(link)
+        markup.add(busd)
+        markup.add(bnb)
+        # markup.add(all)
+        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb, all)
+        bot.send_message(call.from_user.id, "Get price:", reply_markup=markup)
+
+    if "_price" in call.data:
+        pair_name = call.data.split("_")[0]
+        print(pair_name)
+        # messs
+        percent_str = get_specific_crypto_price_ticker(pair_name)
+        bot.send_message(call.from_user.id, percent_str)
+
+
     if call.data == "check_all_values":
         for section in config.sections():
             # Loop through all options in each section
@@ -455,4 +611,3 @@ def beginning(call):
 
 
 bot.polling(none_stop=True, interval=0)
-
