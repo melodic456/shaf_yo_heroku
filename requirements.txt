@@ -1,3 +1,7 @@
 configparser
 requests
 telebot
+beautifulsoup4
+fake-headers
+fake-useragent
+requests

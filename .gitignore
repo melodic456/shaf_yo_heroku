@@ -1,0 +1,50 @@
+# Python files
+*.pyc
+*.pyo
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+.env
+requirements.txt
+requirements-dev.txt
+setup.py
+MANIFEST.in
+# Jupyter Notebook files
+*.ipynb
+.ipynb_checkpoints/
+# Data files
+*.csv
+*.json
+*.txt
+*.log
+*.sqlite
+*.db
+# Other files
+.DS_Store
+Thumbs.db
+# IDE files
+.idea/
+.vscode/
+# Testing files
+tests/
+test_*.py
+# Documentation files
+docs/
+# Build artifacts
+*.whl
+*.tar.gz
+*.zip
+# Other
+*.swp
+*~
+# Ignore specific files
+# Example:
+# my_secret_file.py
+# End Generation Here
+```

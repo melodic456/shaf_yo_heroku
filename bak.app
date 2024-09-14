@@ -10,11 +10,6 @@ import telebot
 from telebot import types
 # BUSD BNB ISSUES
 
-TOKEN="7467031593:AAESLgzJCQb2HNetjRGFLz9yt7ZQlCETeUk"
-CHAT_ID_1="7374728124"
-CHAT_ID_2="6524857442"
-URL="http://localhost:3000/api/data"
-
 crypto_values = {
         'LTC': 50004,
         'DOGE': 50007,
@@ -23,11 +18,10 @@ crypto_values = {
         'ETH': 50010,
         'BTC': 50001,
         'XRP': 8021,
-        'POL': 8297,
+        'MATIC': 8297,
         'LINK': 7835,
         'BUSD': 10355,
-        'BNB': 10550,
-        'TON': 10710
+        'BNB': 40001
     }
 
 def get_yobit_list(pair, pair_id):
@@ -77,17 +71,14 @@ def get_yobit_list(pair, pair_id):
                              data=datas)
 
 def send_msg(text):
-    try:
-        token = os.environ.get("TOKEN")
-        chat_id = os.environ.get("CHAT_ID_1")
-        chat_id2 = os.environ.get("CHAT_ID_2")
-        url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + text
-        url_req2 = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id2 + "&text=" + text
-        results = requests.get(url_req)
-        # ##print((results.json())
-        results2 = requests.get(url_req2)
-    except:
-        print("Something wrong")
+    token = os.environ.get("TOKEN")
+    chat_id = os.environ.get("CHAT_ID_1")
+    chat_id2 = os.environ.get("CHAT_ID_2")
+    url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + text
+    url_req2 = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id2 + "&text=" + text
+    results = requests.get(url_req)
+    # ##print((results.json())
+    results2 = requests.get(url_req2)
     # ##print((results2.json())
 # global data
 
@@ -203,8 +194,7 @@ def get_binance_price_ticker2():
 
 
 def get_specific_crypto_price_ticker(crypto_name):
-    # url = os.environ.get("URL")
-    url = URL
+    url = os.environ.get("URL")
 
     response = requests.get(url)
     data = response.json()
@@ -316,7 +306,7 @@ def all_time_running():
 
 threading.Thread(target=all_time_running).start()
 
-# TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("TOKEN")
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -328,12 +318,11 @@ USDT = 7223
 ETH = 50010
 BTC = 50001
 XRP = 8021
-POL = 8297
+MATIC = 8297
 LINK = 7835
 # 1inch
 BUSD = 10355
 BNB = 40001
-TON = 10710
 
 def default_config(defaul_value):
     config = configparser.ConfigParser()
@@ -347,11 +336,10 @@ def default_config(defaul_value):
         'eth': str(val),
         'btc': str(val),
         'xrp': str(val),
-        'pol': str(val),
+        'matic': str(val),
         'link': str(val),
         'busd': str(val),
         'bnb': str(val),
-        'ton': str(val),
         'all': str(val)
     }
     config['Section 2'] = {
@@ -366,11 +354,10 @@ def default_config(defaul_value):
         'eth_a': '0',
         'btc_a': '0',
         'xrp_a': '0',
-        'POL_a': '0',
+        'matic_a': '0',
         'link_a': '0',
         'busd_a': '0',
         'bnb_a': '0',
-        'ton_a': '0',
         'all_a': '0'
     }
 
@@ -392,11 +379,11 @@ def default_config(defaul_value):
 #     eth = types.KeyboardButton('ETH')
 #     btc = types.KeyboardButton('BTC')
 #     xrp = types.KeyboardButton('XRP')
-#     POL = types.KeyboardButton('POL')
+#     matic = types.KeyboardButton('MATIC')
 #     link = types.KeyboardButton('LINK')
 #     busd = types.KeyboardButton('BUSD')
 #     bnb = types.KeyboardButton('BNB')
-#     markup.add(ltc, doge, trx, usdt, eth, btc, xrp, POL, link, busd, bnb)
+#     markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb)
 #     # item2 = types.KeyboardButton('Option 2')
 #     # item3 = types.KeyboardButton('Option 3')
 #     # markup.add(item1, item2, item3)
@@ -450,11 +437,10 @@ def get_text_messages(message):
                         config.set('Section 3', 'eth_a', str(val))
                         config.set('Section 3', 'btc_a', str(val))
                         config.set('Section 3', 'xrp_a', str(val))
-                        config.set('Section 3', 'POL_a', str(val))
+                        config.set('Section 3', 'matic_a', str(val))
                         config.set('Section 3', 'link_a', str(val))
                         config.set('Section 3', 'busd_a', str(val))
                         config.set('Section 3', 'bnb_a', str(val))
-                        config.set('Section 3', 'ton_a', str(val))
                         config.set('Section 3', 'all_a', str(val))
                     else:
                         config.set('Section 3', amount_to_change, str(amount))
@@ -482,11 +468,10 @@ def get_text_messages(message):
                     config.set('Section 1', 'eth', str(val))
                     config.set('Section 1', 'btc', str(val))
                     config.set('Section 1', 'xrp', str(val))
-                    config.set('Section 1', 'POL', str(val))
+                    config.set('Section 1', 'matic', str(val))
                     config.set('Section 1', 'link', str(val))
                     config.set('Section 1', 'busd', str(val))
                     config.set('Section 1', 'bnb', str(val))
-                    config.set('Section 1', 'ton', str(val))
                     config.set('Section 1', 'all', str(val))
                 else:
                     config.set('Section 1', crypto_to_change_value, message.text)
@@ -508,11 +493,10 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp")
-        pol = types.InlineKeyboardButton(text='POL', callback_data="POL")
+        matic = types.InlineKeyboardButton(text='MATIC', callback_data="matic")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb")
-        ton = types.InlineKeyboardButton(text='TON', callback_data="ton")
         all = types.InlineKeyboardButton(text='ALL', callback_data="all")
         check_all_values = types.InlineKeyboardButton(text='Check all values', callback_data="check_all_values")
         markup.add(check_all_values)
@@ -523,13 +507,12 @@ def beginning(call):
         markup.add(eth)
         markup.add(btc)
         markup.add(xrp)
-        markup.add(pol)
+        markup.add(matic)
         markup.add(link)
         markup.add(busd)
         markup.add(bnb)
-        markup.add(ton)
         markup.add(all)
-        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, POL, link, busd, bnb, all)
+        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb, all)
         bot.send_message(call.from_user.id, "Choose Crypto:", reply_markup=markup)
     if call.data == "amount":
         markup = types.InlineKeyboardMarkup()
@@ -540,11 +523,10 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth_a")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc_a")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp_a")
-        POL = types.InlineKeyboardButton(text='POL', callback_data="POL_a")
+        matic = types.InlineKeyboardButton(text='MATIC', callback_data="matic_a")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link_a")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd_a")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb_a")
-        ton = types.InlineKeyboardButton(text='TON', callback_data="ton_a")
         all = types.InlineKeyboardButton(text='ALL', callback_data="all_a")
         check_all_values = types.InlineKeyboardButton(text='Check all values', callback_data="check_all_values_a")
         markup.add(check_all_values)
@@ -555,13 +537,12 @@ def beginning(call):
         markup.add(eth)
         markup.add(btc)
         markup.add(xrp)
-        markup.add(POL)
+        markup.add(matic)
         markup.add(link)
         markup.add(busd)
         markup.add(bnb)
-        markup.add(ton)
         markup.add(all)
-        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, POL, link, busd, bnb, all)
+        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb, all)
         bot.send_message(call.from_user.id, "Choose Crypto:", reply_markup=markup)
 
     if call.data == "pair_price":
@@ -573,11 +554,10 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth_price")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc_price")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp_price")
-        POL = types.InlineKeyboardButton(text='POL', callback_data="POL_price")
+        matic = types.InlineKeyboardButton(text='MATIC', callback_data="matic_price")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link_price")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd_price")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb_price")
-        ton = types.InlineKeyboardButton(text='TON', callback_data="ton_price")
         # all = types.InlineKeyboardButton(text='ALL', callback_data="all")
         # check_all_values = types.InlineKeyboardButton(text='Check all values', callback_data="check_all_values")
         # markup.add(check_all_values)
@@ -588,13 +568,12 @@ def beginning(call):
         markup.add(eth)
         markup.add(btc)
         markup.add(xrp)
-        markup.add(POL)
+        markup.add(matic)
         markup.add(link)
         markup.add(busd)
         markup.add(bnb)
-        markup.add(ton)
         # markup.add(all)
-        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, POL, link, busd, bnb, all)
+        # markup.add(ltc, doge, trx, usdt, eth, btc, xrp, matic, link, busd, bnb, all)
         bot.send_message(call.from_user.id, "Get price:", reply_markup=markup)
 
     if "_price" in call.data:
