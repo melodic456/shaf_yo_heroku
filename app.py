@@ -11,7 +11,7 @@ from telebot import types
 # BUSD BNB ISSUES
 
 TOKEN="7467031593:AAESLgzJCQb2HNetjRGFLz9yt7ZQlCETeUk"
-CHAT_ID_1="7374728124"
+CHAT_ID_1="715039642"
 CHAT_ID_2="6524857442"
 URL="http://localhost:3000/api/data"
 
@@ -75,25 +75,37 @@ def get_yobit_list(pair, pair_id):
     return requests.post('https://yobit.net/ajax/system_status_data.php', cookies=cookies,
                              headers=headers,
                              data=datas)
+                             
+                        
 
 def send_msg(text):
     try:
-        token = os.environ.get("TOKEN")
-        chat_id = os.environ.get("CHAT_ID_1")
-        chat_id2 = os.environ.get("CHAT_ID_2")
+        
+        
+        TOKEN="7467031593:AAESLgzJCQb2HNetjRGFLz9yt7ZQlCETeUk"
+        CHAT_ID_1="715039642"
+        CHAT_ID_2="6524857442"
+        CHAT_ID_3="7374728124"
+        token = TOKEN
+        chat_id = CHAT_ID_1
+        chat_id2 = CHAT_ID_2
+        chat_id3 = CHAT_ID_3
         url_req = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id + "&text=" + text
         url_req2 = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id2 + "&text=" + text
+        url_req3 = "https://api.telegram.org/bot" + token + "/sendMessage" + "?chat_id=" + chat_id3 + "&text=" + text
         results = requests.get(url_req)
         # ##print((results.json())
         results2 = requests.get(url_req2)
+        results3 = requests.get(url_req3)
     except:
         print("Something wrong")
     # ##print((results2.json())
 # global data
-
+# send_msg("hello")
 
 def get_binance_price_ticker2():
-    url = os.environ.get("URL")
+    # url = os.environ.get("URL")
+    url = URL
 
     response = requests.get(url)
     data = response.json()
@@ -145,6 +157,7 @@ def get_binance_price_ticker2():
                     ltc_amount) + "\nYobit for 1000 , rate is " + str(yobit_1000)
                 # #print((percent_str)
                 # if percent2 < 7 or percent2 > 10:
+                print("last send message")
                 threading.Thread(target=send_msg, args=(percent_str,)).start()
                 # send_msg(percent_str)
             # return percent_str
@@ -199,6 +212,7 @@ def get_binance_price_ticker2():
                             ltc_amount) + "\nYobit for 1000 , rate is " + str(yobit_1000)
                         #print((percent_str)
                         # if percent2 < 7 or percent2 > 10:
+                        print("last send message")
                         send_msg(percent_str)
 
 
@@ -366,7 +380,7 @@ def default_config(defaul_value):
         'eth_a': '0',
         'btc_a': '0',
         'xrp_a': '0',
-        'POL_a': '0',
+        'pol_a': '0',
         'link_a': '0',
         'busd_a': '0',
         'bnb_a': '0',
@@ -450,7 +464,7 @@ def get_text_messages(message):
                         config.set('Section 3', 'eth_a', str(val))
                         config.set('Section 3', 'btc_a', str(val))
                         config.set('Section 3', 'xrp_a', str(val))
-                        config.set('Section 3', 'POL_a', str(val))
+                        config.set('Section 3', 'pol_a', str(val))
                         config.set('Section 3', 'link_a', str(val))
                         config.set('Section 3', 'busd_a', str(val))
                         config.set('Section 3', 'bnb_a', str(val))
@@ -482,7 +496,7 @@ def get_text_messages(message):
                     config.set('Section 1', 'eth', str(val))
                     config.set('Section 1', 'btc', str(val))
                     config.set('Section 1', 'xrp', str(val))
-                    config.set('Section 1', 'POL', str(val))
+                    config.set('Section 1', 'pol', str(val))
                     config.set('Section 1', 'link', str(val))
                     config.set('Section 1', 'busd', str(val))
                     config.set('Section 1', 'bnb', str(val))
@@ -508,7 +522,7 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp")
-        pol = types.InlineKeyboardButton(text='POL', callback_data="POL")
+        pol = types.InlineKeyboardButton(text='POL', callback_data="pol")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb")
@@ -540,7 +554,7 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth_a")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc_a")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp_a")
-        POL = types.InlineKeyboardButton(text='POL', callback_data="POL_a")
+        POL = types.InlineKeyboardButton(text='POL', callback_data="pol_a")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link_a")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd_a")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb_a")
@@ -573,7 +587,7 @@ def beginning(call):
         eth = types.InlineKeyboardButton(text='ETH', callback_data="eth_price")
         btc = types.InlineKeyboardButton(text='BTC', callback_data="btc_price")
         xrp = types.InlineKeyboardButton(text='XRP', callback_data="xrp_price")
-        POL = types.InlineKeyboardButton(text='POL', callback_data="POL_price")
+        POL = types.InlineKeyboardButton(text='POL', callback_data="pol_price")
         link = types.InlineKeyboardButton(text='LINK', callback_data="link_price")
         busd = types.InlineKeyboardButton(text='BUSD', callback_data="busd_price")
         bnb = types.InlineKeyboardButton(text='BNB', callback_data="bnb_price")
